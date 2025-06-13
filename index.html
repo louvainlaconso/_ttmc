@@ -35,6 +35,25 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+      border: 4px solid #eee;
+      overflow: hidden; /* Important pour masquer la progression qui dépasse */
+    }
+    /* Ajout d'un pseudo-élément pour la progression */
+    .quiz-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: conic-gradient(
+        var(--main-black) 0%,
+        var(--main-black) 0%,
+        #eee 0%,
+        #eee 100%
+      );
+      border-radius: 24px;
+      z-index: -1;
     }
     .header {
       text-align: center;
@@ -173,24 +192,38 @@
     }
     .score {
       margin-top: 32px;
-      font-size: 1.25em;
+      font-size: 1.5em;
       color: var(--main-pink);
       text-align: center;
       font-weight: bold;
     }
+    .final-score-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 70vh;
+      text-align: center;
+    }
     .final-score-circle {
       background: var(--main-black);
       color: var(--main-white);
-      width: 80px;
-      height: 80px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2em;
+      font-size: 2.5em;
       font-weight: bold;
       margin: 18px auto 12px auto;
       box-shadow: 0 2px 12px #0003;
+    }
+    .final-message {
+      font-size: 1.2em;
+      color: var(--main-black);
+      margin-top: 24px;
+      line-height: 1.4;
     }
     @media (max-width: 600px) {
       html {
@@ -229,11 +262,14 @@
         max-width: 98vw;
       }
       .final-score-circle {
-        width: 60px;
-        height: 60px;
-        font-size: 1.2em;
+        width: 80px;
+        height: 80px;
+        font-size: 1.5em;
       }
       .score {
+        font-size: 1.3em;
+      }
+      .final-message {
         font-size: 1.1em;
       }
     }
@@ -255,19 +291,19 @@
         certaintyQuestion: "Tu te mets combien à propos de tes connaissances sur la consommation et les habitudes des étudiants ?",
         questions: [
           {
-            text: "A. Selon toi, un étudiant consomme de l'alcool combien de jours par semaine en moyenne ?",
+            text: "Selon toi, un étudiant consomme de l'alcool combien de jours par semaine en moyenne ?",
             answer: 2,
             explanation: "La moyenne est à 2 jours par semaine. Étonnant lorsque qu'on sait qu'une bonne partie des étudiants pensent que celle-ci est à 4 jours par semaine."
           },
           {
-            text: "B. Combien d'étudiants sur 10, se disent être des consommateurs quotidien ?",
+            text: "Sachant qu'un étudiant sur 4 dit être ivre au moins une fois par semaine, combien d'entre eux sur 10 disent être consommateur quotidien ?",
             answer: 1,
-            explanation: "Parmi ces consommateurs, 1 étudiant sur 10 dit consommer de l’alcool quotidiennement, tandis que 10% affirment qu’ils ne boivent pas."
+            explanation: "Parmi ces consommateurs, 1 étudiant sur 10 dit consommer de l'alcool quotidiennement, tandis que 10% affirment qu'ils ne boivent pas."
           },
           {
-            text: "C. D’après toi, combien d’étudiants sur 10 pratiquent le binge-drinking ?",
+            text: "D'après toi, combien d'étudiants sur 10 pratiquent le binge-drinking ?",
             answer: 5,
-            explanation: "La moitié des étudiants consomment rapidement de l’alcool (et finissent souvent bourrés). Ils consomment en moyenne 2 verres par heure."
+            explanation: "La moitié des étudiants consomment rapidement de l'alcool (et finissent souvent bourrés). Ils consomment en moyenne 2 verres par heure."
           }
         ]
       },
@@ -276,19 +312,19 @@
         certaintyQuestion: "Tu te mets combien à propos de tes connaissances sur les risques et conséquences liées à l'alcool ?",
         questions: [
           {
-            text: "D. En moyenne, combien d’étudiants sur 10 ont une consommation nocive d’alcool ?",
+            text: "Autour de quelle quantité d'étudiants sur 10 ont une consommation nocive d'alcool ?",
             answer: 6,
-            explanation: "Plus de la moitié (56%). Ce résultat provient du test AUDIT qui établit 3 catégories sur base d’un score allant de 1 à 40 : Low-risk, consommation nocive, ou dangereuse/à risque de dépendance à l’alcool."
+            explanation: "Plus de la moitié (56%). Ce résultat provient du test AUDIT qui établit 3 catégories sur base d'un score allant de 1 à 40 : Low-risk, consommation nocive, ou dangereuse/à risque de dépendance à l'alcool."
           },
           {
-            text: "E. Sur base du test AUDIT, combien d’étudiants de l’UCLouvain (sur 10) a une consommation dangereuse d’alcool ?",
+            text: "Sur base du test AUDIT, environ quel quantité d'étudiants de l'UCLouvain (sur 10) a une consommation dangereuse d'alcool ?",
             answer: 1,
-            explanation: "13% des étudiants ont une consommation qui tend vers la dépendance à l’alcool. Pour information, le score du test AUDIT est basé sur 3 variables, la fréquence et quantité de la consommation d’alcool, la possibilité de dépendance à l’alcool et les expériences de dommages liés à l’alcool. N’hésite pas à faire le test (https://santesecu.public.lu/dam-assets/fr/prevention/alcool/dependance/test-audit.pdf)"
+            explanation: "13% des étudiants ont une consommation qui tend vers la dépendance à l'alcool. Pour information, le score du test AUDIT est basé sur 3 variables, la fréquence et quantité de la consommation d'alcool, la possibilité de dépendance à l'alcool et les expériences de dommages liés à l'alcool. N'hésite pas à faire le test (https://santesecu.public.lu/dam-assets/fr/prevention/alcool/dependance/test-audit.pdf)"
           },
           {
-            text: "F. D’après toi, combien d’étudiant sur 10 avouent avoir déjà conduit sous l’influence de l’alcool ?",
+            text: "D'après toi, combien d'étudiant sur 10 avouent avoir déjà conduit sous l'influence de l'alcool ?",
             answer: 2,
-            explanation: "En moyenne, 2 étudiants sur 10 avouent avoir conduit sous l'influence de l'alcool. Il faut savoir que l’effet désinhibant de l’alcool amène à sous-évaluer les risques et à surestimer ses capacités alors que même à petite dose, l’alcool agit directement sur le cerveau ! Boire ou conduire, il faut choisir 😉"
+            explanation: "En moyenne, 2 étudiants sur 10 avouent avoir conduit sous l'influence de l'alcool. Il faut savoir que l'effet désinhibant de l'alcool amène à sous-évaluer les risques et à surestimer ses capacités alors que même à petite dose, l'alcool agit directement sur le cerveau ! Boire ou conduire, il faut choisir 😉"
           }
         ]
       },
@@ -297,22 +333,22 @@
         certaintyQuestion: "Tu te mets combien à propos de tes connaissances sur la perception et l'influence sociale liées à l'alcool ?",
         questions: [
           {
-            text: "G. Selon toi, combien d’étudiants planifient ses journées autour de l’alcool et de la guindaille ?",
+            text: "Selon toi, quelle quantité d'étudiants planifie ses journées autour de l'alcool et de la guindaille ?",
             answer: 5,
-            explanation: "C’est le cas de près de la moitié des étudiants de Louvain-la-Neuve. Pas étonnant lorsqu’on sait que la moitié des étudiants disent être incapable d’étudier ou de travailler à cause de l’alcool, et que 41% des étudiants disent que cela perturbe leurs études."
+            explanation: "C'est le cas de près de la moitié des étudiants de Louvain-la-Neuve. Pas étonnant lorsqu'on sait que la moitié des étudiants disent être incapable d'étudier ou de travailler à cause de l'alcool, et que 41% des étudiants disent que cela perturbe leurs études."
           },
           {
-            text: "H. Selon toi, combien d'étudiants sur 10 estiment que c'est mal vu, de ne pas boire de l'alcool en soirée?",
+            text: "Selon toi, quelle quantité d'étudiant sur 10 estime que c'est mal vu de ne pas boire de l'alcool en soirée?",
             answer: 2,
-            explanation: "Près d'un étudiant sur 5 est en accord avec le fait que les non-buveurs sont mal vu en soirée, et 38% des étudiants estiment qu'il est difficile de s'intégrer socialement si on ne boit pas d'alcool."
+            explanation: "Près d'un étudiant sur 5 est en accord avec le fait que les non-buveurs sont mal vu en soirée, et 38% des étudiants estiment qu'il est difficile de s'intégrer socialement si on ne boire pas d'alcool."
           },
           {
-            text: "I. À ton avis quel est le pourcentage d'étudiants à l'UCLouvain qui boivent en soirée (entre-autres) parce que les ami.e.s y ont poussé ?",
+            text: "À ton avis quel est le pourcentage d'étudiants à l'UCLouvain qui boivent en soirée (entre-autres) parce que les ami.e.s y ont poussé ?",
             answer: 5,
             explanation: "51% des étudiants de l'UCLouvain interrogés l'ont identifié comme une des motivations à boire. Si on élargit aux jeunes de 18-34 ans en Wallonie, ce nombre descend à 25%. C'est donc un phénomène particulièrement présent à l'UCLouvain."
           },
           {
-            text: "J. Sur une échelle de 1 à 10, comment estimes-tu le soutien offert aux étudiants qui rencontrent des problèmes liés à l’alcool ?",
+            text: "Sur une échelle de 1 à 10, comment estimes-tu le soutien offert aux étudiants qui rencontrent des problèmes liés à l'alcool ?",
             answer: 4,
             explanation: "La perception moyenne du niveau de soutien est de 4 sur 10."
           }
@@ -327,10 +363,22 @@
     let categoryScores = [];
     let userAnswers = [];
     let malusByCategory = [];
-    let awaitingNext = false; // Ajout d'un état pour attendre le "Suivant"
+    let awaitingNext = false;
+    let totalQuestions = 0;
+    let answeredQuestions = 0;
+
+    // Calculer le nombre total de questions (questions + certitudes)
+    categories.forEach(cat => {
+      totalQuestions += cat.questions.length + 1; // +1 pour la question de certitude
+    });
 
     // --- RENDERING ---
     const quizContainer = document.getElementById('quizContainer');
+
+    function updateProgressBar() {
+      const progress = (answeredQuestions / totalQuestions) * 100;
+      quizContainer.style.setProperty('--progress', progress + '%');
+    }
 
     function renderCategoryIntro() {
       quizContainer.innerHTML = `
@@ -359,6 +407,8 @@
       slider.oninput = () => sliderValue.textContent = slider.value;
       document.getElementById('submitBtn').onclick = () => {
         certaintyScores[currentCategory] = parseInt(slider.value, 10);
+        answeredQuestions++;
+        updateProgressBar();
         currentQuestion = 0;
         renderQuestion();
       };
@@ -381,7 +431,6 @@
       const sliderValue = document.getElementById('sliderValue');
       slider.oninput = () => sliderValue.textContent = slider.value;
       document.getElementById('submitBtn').onclick = () => {
-        // Masquer le bouton "Valider"
         document.getElementById('submitBtn').hidden = true;
         handleAnswer(parseInt(slider.value, 10));
       };
@@ -405,13 +454,13 @@
         "Raté ! Tu perds 0,5 point.";
       document.getElementById('result').className = "result " + resultClass;
       document.getElementById('explanation').textContent = q.explanation;
-      // Afficher le bouton "Suivant"
       document.getElementById('nextBtn').hidden = false;
-      // Attendre le clic sur "Suivant"
       awaitingNext = true;
       document.getElementById('nextBtn').onclick = () => {
         if (awaitingNext) {
           awaitingNext = false;
+          answeredQuestions++;
+          updateProgressBar();
           goToNext();
         }
       };
@@ -422,7 +471,6 @@
       if (currentQuestion < categories[currentCategory].questions.length) {
         renderQuestion();
       } else {
-        // Calcul du score de la catégorie
         const start = userAnswers.length - categories[currentCategory].questions.length;
         const end = userAnswers.length;
         let rawScore = userAnswers.slice(start, end).reduce((sum, ans) => sum + ans.pts, 0);
@@ -432,7 +480,6 @@
         let malusWithCoef = rawMalus * coef;
         categoryScores[currentCategory] = +(scoreWithCoef + malusWithCoef).toFixed(2);
         malusByCategory[currentCategory] = +(malusWithCoef).toFixed(2);
-        // Catégorie suivante ou fin
         currentCategory++;
         if (currentCategory < categories.length) {
           currentQuestion = -2;
@@ -446,25 +493,16 @@
     function renderFinalScore() {
       const total = categoryScores.reduce((a, b) => a + b, 0);
       quizContainer.innerHTML = `
-        <div class="final-score-circle">${total.toFixed(2)}</div>
-        <div class="score">Score final (avec coefficients et malus) : <br><b>${total.toFixed(2)}</b></div>
-        <div style="margin-top:24px;">
-          ${categories.map((cat, i) =>
-            `<div style="margin-bottom:10px;">
-              <span style="color:var(--main-pink);font-weight:bold;">${cat.title}</span><br>
-              Score (avec coef) : ${(categoryScores[i] - malusByCategory[i]).toFixed(2)}<br>
-              Malus : ${malusByCategory[i]}<br>
-              Coefficient : ${certaintyScores[i]}/10
-            </div>`
-          ).join('')}
-        </div>
-        <div style="margin-top:32px;text-align:center;">
-          <button class="category-btn" onclick="location.reload()">Recommencer</button>
+        <div class="final-score-container">
+          <div class="final-score-circle">${total.toFixed(2)}</div>
+          <div class="score">Score final : <b>${total.toFixed(2)}</b></div>
+          <div class="final-message">Merci d'avoir participé à ce quiz ! Les normes sociales qui entourent la consommation d'alcool peuvent être incidieuses... Nous espérons t'avoir éclairé sur le sujet.</div>
         </div>
       `;
     }
 
     // --- INIT ---
+    quizContainer.style.setProperty('--progress', '0%');
     renderCategoryIntro();
   </script>
 </body>
